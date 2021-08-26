@@ -1,0 +1,23 @@
+//   https://leetcode-cn.com/problems/first-missing-positive/
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+        //由于返回第一个正整数，不包括0，所以length+1
+        int[] newArr=new int[nums.length+1];
+        //将数组元素添加到辅助数组中
+        for(int x:nums){
+            if(x>0&&x<newArr.length){
+                newArr[x]=x;
+            }
+        }
+        //遍历新数组，将缺少的数字返回
+        for(int i=1;i<newArr.length;i++){
+            if(newArr[i]!=i){
+                return i;
+            }
+        }
+        //刚好缺少最后一个正数，直接返回新数组长度
+        return newArr.length;
+    }
+}
+
+
