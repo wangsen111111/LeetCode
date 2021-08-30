@@ -1,0 +1,24 @@
+//    https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/
+class Solution {
+    //dfs
+    public int movingCount(int m, int n, int k) {
+        boolean[][] visited=new boolean[m][n];
+        return dfs(visited,m,n,k,0,0);
+    }
+    public int dfs(boolean[][] visited,int m,int n,int k,int i,int j){
+        if(i>=m||j>=n||visited[i][j]||sums(i)+sums(j)>k){
+            return 0;
+        }
+        visited[i][j]=true;
+        return 1+dfs(visited,m,n,k,i+1,j)+dfs(visited,m,n,k,i,j+1);
+    }
+    //求位数为和
+    public int sums(int num){
+        int sum=0;
+        while(num>0){
+            sum+=num%10;
+            num=num/10;
+        }
+        return sum;
+    }
+}
