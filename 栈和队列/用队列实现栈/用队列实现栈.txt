@@ -1,0 +1,46 @@
+//    https://leetcode-cn.com/problems/implement-stack-using-queues/submissions/
+class MyStack {
+     /**
+    分析：队列先进先出，栈先进后出
+          1，元素入栈
+             可以创建saveQueue和positionQueue，saveQueue保存已有的数据，
+             让每次加进来的数据加positionQueue中使得后进来的能成为队列头，
+             然后将saveQueue中的元素拿出来加到positionQueue中，也就符合
+             栈先进后出的特点，最后将saveQueue和positionQueue互换，
+             此时saveQueue中的元素即为栈中的元素
+    */
+    Queue<Integer> saveQueue;
+    Queue<Integer> positionQueue;
+
+    /** Initialize your data structure here. */
+    public MyStack() {
+        saveQueue=new LinkedList<>();
+        positionQueue=new LinkedList<>();
+    }
+    
+    /** Push element x onto stack. */
+    public void push(int x) {
+        positionQueue.add(x);
+        while(!saveQueue.isEmpty()){
+            positionQueue.add(saveQueue.poll());
+        }
+        Queue<Integer> temp=saveQueue;
+        saveQueue=positionQueue;
+        positionQueue=temp;
+    }
+    
+ /** Removes the element on top of the stack and returns that element. */
+    public int pop() {
+        return saveQueue.poll();
+    }
+    
+    /** Get the top element. */
+    public int top() {
+        return saveQueue.peek();
+    }
+    
+    /** Returns whether the stack is empty. */
+    public boolean empty() {
+        return saveQueue.isEmpty()&&positionQueue.isEmpty();
+    }
+}

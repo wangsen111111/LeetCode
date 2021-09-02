@@ -1,0 +1,31 @@
+https://leetcode-cn.com/problems/all-paths-from-source-to-target/
+分析：
+从0号节点开始，进行dfs，并且将访问顶点加入path列表，如果当前节点为n-1号节点，将该列表加入result结果集。
+代码如下（示例）：
+。。。
+class Solution {
+    List<List<Integer>> result;
+    LinkedList<Integer> path;
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        result=new ArrayList<>();
+        path=new LinkedList<>();
+        dfs(graph,0);
+        return result;
+    }
+    //num代表遍历到哪个节点拉
+    //从0号节点开始，进行dfs，并且将访问顶点加入path列表，
+    //如果当前节点为n-1号节点，将该列表加入result结果集。
+    public void dfs(int[][] graph,int num){
+        path.add(num);
+        if(num==graph.length-1){
+            result.add(new LinkedList<>(path));
+            return;
+        }
+        for(int i=0;i<graph[num].length;i++){
+            dfs(graph,graph[num][i]);
+            path.removeLast();
+        }
+    }
+}
+
+。。。

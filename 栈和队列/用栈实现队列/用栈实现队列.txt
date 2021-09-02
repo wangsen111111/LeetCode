@@ -1,0 +1,44 @@
+//   https://leetcode-cn.com/problems/implement-queue-using-stacks/submissions/
+class MyQueue {
+    //savaStack来存储，positionStack来调换位置
+    Stack<Integer> savaStack;
+    Stack<Integer> positionStack;
+
+    /** Initialize your data structure here. */
+    public MyQueue() {
+        savaStack=new Stack<>();
+        positionStack=new Stack<>();
+    }
+    
+    /** Push element x to the back of queue. */
+    public void push(int x) {
+        savaStack.push(x);
+
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    public int pop() {
+        if(positionStack.isEmpty()){
+            while(!savaStack.isEmpty()){
+                positionStack.push(savaStack.pop());
+            }
+        }
+        return positionStack.pop();
+    }
+    
+    /** Get the front element. */
+    public int peek() {
+        if(positionStack.isEmpty()){
+            while(!savaStack.isEmpty()){
+                positionStack.push(savaStack.pop());
+            }
+        }
+        return positionStack.peek();
+
+    }
+    
+    /** Returns whether the queue is empty. */
+    public boolean empty() {
+        return savaStack.isEmpty()&&positionStack.isEmpty();
+    }
+}
