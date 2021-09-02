@@ -1,0 +1,16 @@
+//https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root==null){
+            return true;
+        }
+        return symmetry(root.left,root.right);
+    }
+    public boolean symmetry(TreeNode leftNode, TreeNode rightNode){
+        //如果左右节点都为空，就对称
+        if(leftNode==null&&rightNode==null) return true;
+        //如果左右节点其中一个为空，或者左边节点的值与对称位置的值不相等,就不对称
+        if(leftNode==null||rightNode==null||leftNode.val!=rightNode.val) return false;
+        return symmetry(leftNode.left,rightNode.right)&&symmetry(leftNode.right,rightNode.left);
+    }
+}

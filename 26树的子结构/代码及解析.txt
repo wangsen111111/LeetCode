@@ -1,0 +1,26 @@
+//链接：https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/
+class Solution {
+    //我们只需要从根节点开始判断，通过递归的方式比较他的每一个子节点即可
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        //边界值判断，如果A B有一个为空，就返回false
+        if(A==null||B==null){
+            return false;
+        }
+        //B不光有可能是A的子结构，也有可能是A左子树的子结构或者右子树的子结构，
+        //所以如果从根节点判断B不是A的子结构，还要继续判断B是不是A左子树的子结构和右子树的子结构
+        return isSubStructure1(A,B)||isSubStructure(A.left,B)||isSubStructure(A.right,B);
+    }
+    //判断B是不是A的子结构
+    public boolean isSubStructure1(TreeNode A, TreeNode B){
+        //如果B为空，说明B访问完了，确定是A的子结构
+        if(B==null){
+            return true;
+        }
+        //如果B不为空，A为空，或者两个节点值不同，说明B不是A的子节点
+        if(A==null||A.val!=B.val){
+            return false;
+        }
+        //当前节点判断完，换要判断左右子节点
+        return isSubStructure1(A.left,B.left)&&isSubStructure1(A.right,B.right);
+    }
+}

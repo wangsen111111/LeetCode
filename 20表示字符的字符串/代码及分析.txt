@@ -1,0 +1,78 @@
+//链接：https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof/
+class Solution {
+    public boolean isNumber(String s) {
+        int index=0;//字符串索引
+        int sLength=s.length();
+        boolean hasNum=false;   boolean hasE=false;
+        boolean hasSign=false;// +  -
+        boolean hasDot=false;//  .
+        //1，先处理开头空格，index后移
+        while(index<sLength&&s.charAt(index)==' '){
+            index++;
+        }
+        //2,遍历字符串，判断字符串是否表示数值
+        while(index<sLength){
+            /*
+            (1)数字：  hasNum=true;
+                    index++ 到非数字 或者遍历到末尾位置
+                    if(index==n)  结束循环
+            */
+            while(index<sLength&&s.charAt(index)>='0'&&s.charAt(index)<='9'){
+                index++;
+                hasNum=true;
+            }
+            if(index==sLength){
+                break;
+            }
+            char c=s.charAt(index);
+            /*
+            (2)e/E:     e已经出现  或者e之前无数字，false  否则 hasE=true;
+                        并且将其他三个flag置为false,开始遍历e后面的新的一部分数字
+            */
+            if(c=='e'||c=='E'){
+                if(hasE||!hasNum){
+                    return false;
+                }
+                hasE=true;
+                hasDot=false;   hasNum=false;    hasSign=false;
+            }else if(c=='+'||c=='-'){
+            /*
+            (3)+/-:     如果已经出现过+/- 或者已经出现过数字或者已经出现过'.'，返回flase；
+                        否则令hasSign = true
+            */
+            if(hasSign||hasDot||hasNum){
+                return false;
+            }
+            hasSign=true;
+             }else if(c=='.'){
+            /*
+            (4).        如果已经出现过'.'或者已经出现过'e'或'E'，返回false；
+                        否则令hasDot = true
+            */
+            if(hasDot||hasE){
+                return false;
+            }
+            hasDot=true;
+             }else if(c==' '){
+                 break;
+            /*
+            (5)空         如果到末尾的空格了，结束循环;
+                          但也有可能是字符串中间的空格，在循环外继续处理
+            */
+            }else{
+            /*
+            (6)其他情况返回false
+            */
+              return false;
+            }
+            index++;
+        }
+        //3,处理空格，index相应的后移
+        while(index<sLength&&s.charAt(index)==' '){
+            index++;
+        }
+        //4,if(index==sLength) 遍历到了末尾;    但还要满足hasNum=true;
+        //因为如果字符串全是符号而没有数字是不行的，而且e后面没有数字不行，但没有符号可以
+        return hasNum&&index==sLength;
+    }
+}
